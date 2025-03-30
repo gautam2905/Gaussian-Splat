@@ -57,7 +57,7 @@ def extract_frames(video_path, target_fps):
         if count % frame_interval == 0:
             splatted_frame = gaussian_splat(frame)
             yield splatted_frame
-
+            # yield frame
         count += 1
 
     cap.release()
