@@ -1,5 +1,6 @@
 import cv2 as cv
 import os
+import subprocess as sbp
 import glob
 import zipfile as zp
 import tempfile as tp
@@ -143,7 +144,7 @@ class pipeline:
               └── normal_maps
         """
 
-        base_dir = os.getcwd()
+        base_dir = os.getcwd() + "\\colmap_structure"
         dirs = {
             "images": os.path.join(base_dir, "images"),
             "input": os.path.join(base_dir, "input"),
@@ -165,17 +166,17 @@ class pipeline:
 
     def colmap_run():
         """
-        * Automate the COLMAP pipeline using PyCOLMAP.
-
+        * Automate the COLMAP pipeline using COLMAP's command-line tools via subprocess.
+        
         This function:
         - Runs feature extraction.
         - Runs feature matching.
-        - Runs sparse reconstruction (mapping).
-
-        Output files such as cameras.bin, images.bin, and points3D.bin are saved in the output directories.
+        - Runs sparse reconstruction (mapper).
+        
+        It assumes that COLMAP is installed and accessible from the command line.
         """
 
-        base_dir = os.getcwd()
+        base_dir = os.getcwd() + "\\colmap_structure"
         # Directory where extracted frames are stored.
         image_path = os.path.join(base_dir, "images")
         # Database file location (inside 'distorted' folder).
@@ -188,26 +189,32 @@ class pipeline:
         os.makedirs(sparse_output, exist_ok=True)
 
         print("Running COLMAP feature extraction...")
-        # Run feature extraction using PyCOLMAP.
-        pc.extract_features(database_path=database_path, image_path=image_path)
+        # * Run feature extraction using PyCOLMAP.
+        # pc.extract_features(database_path=database_path, image_path=image_path)
+        cmd_extract = ["colmap", "feature_extractor", "--database_path" , database_path, "--image_path", image_path]
+        sbp.run(cmd_extract, check=True)
 
         print("Running COLMAP feature matching...")
-        # Run feature matching.
-        pc.match_features(database_path=database_path)
+        # * Run feature matching.
+        # pc.match_features(database_path=database_path)
+        cmd_match = ["colmap", "exhaustive_matcher", "--database_path",database_path]
+        sbp.run(cmd_match,check=True)
 
         print("Running COLMAP sparse reconstruction (mapper)...")
-        # Run the mapper; this returns a reconstruction object.
-        reconstruction = pc.run_mapper(
-            database_path=database_path,
-            image_path=image_path,
-            output_path=sparse_output,
-        )
+        # * Run the mapper; this returns a reconstruction object.
+        # reconstruction = pc.run_mapper(
+        #     database_path=database_path,
+        #     image_path=image_path,
+        #     output_path=sparse_output,
+        # )
+        cmd_mapper = ["colmap","mapper","--database_path",database_path,"--image_path",image_path,"--output_path",sparse_output]
+        sbp.run(cmd_mapper,check=True)
         print("Sparse reconstruction complete.")
 
-        # Optional: Inspect or log details from the reconstruction.
-        print(f"Number of cameras: {len(reconstruction.cameras)}")
-        print(f"Number of images: {len(reconstruction.images)}")
-        print(f"Number of 3D points: {len(reconstruction.points3D)}")
+        # ** # Optional: Inspect or log details from the reconstruction.
+        # print(f"Number of cameras: {len(reconstruction.cameras)}")
+        # print(f"Number of images: {len(reconstruction.images)}")
+        # print(f"Number of 3D points: {len(reconstruction.points3D)}")
 
 
 if __name__ == "__main__":
