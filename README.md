@@ -1,6 +1,7 @@
 # Gaussian-Splat
 
 The code is not Publically available but here is a glimpse of what is can do 
+Main Code in the `main2` branch. 
 
 ### Normal Video
 
