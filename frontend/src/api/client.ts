@@ -2,6 +2,16 @@ import type { Manifest } from "./types";
 
 const BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? "http://localhost:8000";
 
+const KNOWN_SSE_EVENTS = [
+  "not_implemented",
+  "stage",
+  "object_ready",
+  "scene_fallback",
+  "ready",
+  "refused",
+  "failed",
+] as const;
+
 export class ApiError extends Error {
   readonly status: number;
   readonly body: unknown;
@@ -15,10 +25,12 @@ export class ApiError extends Error {
 }
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const r = await fetch(BASE + path, {
-    ...init,
-    headers: { "content-type": "application/json", ...(init?.headers ?? {}) },
-  });
+  const hasBody = init?.body !== undefined;
+  const headers: Record<string, string> = {
+    ...(hasBody ? { "content-type": "application/json" } : {}),
+    ...(init?.headers as Record<string, string> | undefined ?? {}),
+  };
+  const r = await fetch(BASE + path, { ...init, headers });
   if (!r.ok) {
     const body = await r.json().catch(() => null);
     throw new ApiError(r.status, body);
@@ -53,7 +65,18 @@ export function subscribeExhibitEvents(
   onError?: (err: Event) => void,
 ): () => void {
   const es = new EventSource(`${BASE}/api/exhibits/${encodeURIComponent(id)}/events`);
-  es.onmessage = (m) => onEvent({ event: m.type, data: m.data });
+  const handlers: Record<string, (m: MessageEvent) => void> = {};
+  for (const name of KNOWN_SSE_EVENTS) {
+    const h = (m: MessageEvent) => onEvent({ event: name, data: m.data });
+    handlers[name] = h;
+    es.addEventListener(name, h as EventListener);
+  }
   if (onError) es.onerror = onError;
-  return () => es.close();
+  return () => {
+    for (const name of KNOWN_SSE_EVENTS) {
+      const h = handlers[name];
+      if (h) es.removeEventListener(name, h as EventListener);
+    }
+    es.close();
+  };
 }
