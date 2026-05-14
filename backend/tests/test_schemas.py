@@ -154,8 +154,12 @@ def test_world_coords_also_accepted() -> None:
 
 
 def test_fog_rejects_near_ge_far() -> None:
+    """Both near > far and near == far are rejected (the validator uses >=)."""
     p = _valid_payload()
     p["scene"]["fog"] = {"color": "#1a1208", "near": 25.0, "far": 8.0}
+    with pytest.raises(ValidationError):
+        Manifest.model_validate(p)
+    p["scene"]["fog"] = {"color": "#1a1208", "near": 10.0, "far": 10.0}
     with pytest.raises(ValidationError):
         Manifest.model_validate(p)
 
