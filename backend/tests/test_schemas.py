@@ -135,12 +135,13 @@ def test_rejects_bad_clip_axis() -> None:
         Manifest.model_validate(p)
 
 
-def test_normalized_coords_accepted() -> None:
-    """Pre-frame-fit coords are in [0,1]; schema doesn't enforce range (semantic)."""
+def test_boundary_normalized_coords_accepted() -> None:
+    """Coords at the exact [0,1] boundaries are accepted (pre-frame-fit state)."""
     p = _valid_payload()
-    # All position/spline coords are already in [0,1] in the fixture
-    assert all(0.0 <= c <= 1.0 for cp in p["spline"]["control_points"] for c in cp)
-    assert all(0.0 <= c <= 1.0 for c in p["pedestals"][0]["position"])
+    p["spline"]["control_points"] = [[0.0, 0.0, 0.0], [1.0, 1.0, 1.0]]
+    p["pedestals"][0]["position"] = [0.0, 0.0, 0.0]
+    Manifest.model_validate(p)
+    p["pedestals"][0]["position"] = [1.0, 1.0, 1.0]
     Manifest.model_validate(p)
 
 
@@ -150,3 +151,23 @@ def test_world_coords_also_accepted() -> None:
     p["pedestals"][0]["position"] = [-1.0, 0.0, 0.5]  # negative + > 1, valid
     p["spline"]["control_points"] = [[0.0, 1.7, 4.0], [-1.0, 1.7, 2.5]]
     Manifest.model_validate(p)
+
+
+def test_fog_rejects_near_ge_far() -> None:
+    p = _valid_payload()
+    p["scene"]["fog"] = {"color": "#1a1208", "near": 25.0, "far": 8.0}
+    with pytest.raises(ValidationError):
+        Manifest.model_validate(p)
+
+
+def test_pedestal_rejects_two_dim_position_via_kwargs() -> None:
+    """Direct construction must reject 2-dim position (the Point3D alias fires)."""
+    from app.schemas import PedestalSpec
+    with pytest.raises(ValidationError):
+        PedestalSpec(id="x", position=[0.1, 0.2], height=1.0, object_id="o")
+
+
+def test_station_defaults_pedestal_id_to_none() -> None:
+    from app.schemas import Station
+    s = Station(t=0.0, label="entrance", preferred_yaw_deg=0.0)
+    assert s.pedestal_id is None

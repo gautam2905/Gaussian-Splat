@@ -16,13 +16,15 @@ allowed within the same version.
 """
 from datetime import datetime
 from enum import Enum
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 SchemaVersion = Literal["v4.2"]
 ClipAxis = Literal["x", "y", "z"]
 SceneGenerator = Literal["hunyuanworld", "stock"]
+
+Point3D = Annotated[list[float], Field(min_length=3, max_length=3)]
 
 
 class JobStage(str, Enum):
@@ -43,6 +45,12 @@ class Fog(BaseModel):
     color: str
     near: float = Field(ge=0.0)
     far: float = Field(ge=0.0)
+
+    @model_validator(mode="after")
+    def _near_lt_far(self) -> "Fog":
+        if self.near >= self.far:
+            raise ValueError(f"Fog.near ({self.near}) must be < far ({self.far})")
+        return self
 
 
 class RoomFrame(BaseModel):
@@ -71,7 +79,7 @@ class Scene(BaseModel):
 class Station(BaseModel):
     t: float = Field(ge=0.0, le=1.0)
     label: str
-    pedestal_id: str | None
+    pedestal_id: str | None = None  # default; pass-through stations have no pedestal
     preferred_yaw_deg: float
 
 
@@ -81,17 +89,9 @@ class Spline(BaseModel):
     `control_points` are in normalized [0,1] room-local coordinates before frame fit,
     in world coordinates after. See module docstring.
     """
-    control_points: list[list[float]] = Field(min_length=2)
+    control_points: list[Point3D] = Field(min_length=2)
     stations: list[Station] = Field(min_length=2)
     travel_time_s: float = Field(gt=0.0)
-
-    @field_validator("control_points")
-    @classmethod
-    def _three_d(cls, v: list[list[float]]) -> list[list[float]]:
-        for p in v:
-            if len(p) != 3:
-                raise ValueError(f"control point must be [x,y,z], got {p}")
-        return v
 
 
 class PedestalSpec(BaseModel):
@@ -101,16 +101,9 @@ class PedestalSpec(BaseModel):
     world coordinates after. See module docstring.
     """
     id: str
-    position: list[float]
+    position: Point3D
     height: float = Field(gt=0.0)
     object_id: str
-
-    @field_validator("position")
-    @classmethod
-    def _three_d(cls, v: list[float]) -> list[float]:
-        if len(v) != 3:
-            raise ValueError(f"position must be [x,y,z], got {v}")
-        return v
 
 
 class ObjectSpec(BaseModel):
