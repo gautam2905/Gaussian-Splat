@@ -13,6 +13,7 @@ dependencies = [
   "modal>=0.66",
   "python-multipart>=0.0.9",
   "pillow>=10.4",
+  "python-ulid>=2.7",
 ]
 
 [project.optional-dependencies]
