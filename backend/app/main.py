@@ -1,9 +1,11 @@
 from fastapi import FastAPI
 
+from .api.exhibits import router as exhibits_router
 from .api.health import router as health_router
 
 app = FastAPI(title="museums-backend", version="0.1.0")
 app.include_router(health_router)
+app.include_router(exhibits_router)
 
 
 @app.get("/")
