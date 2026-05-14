@@ -285,9 +285,26 @@ The total task count goes from 38 to ~41 with three insertions; effort estimate 
 
 ---
 
+## Amendment J — HunyuanWorld licensing (added post-Task-7)
+
+**Discovered:** Task 7 clones (`ec03694`). HunyuanWorld is **not** MIT. It uses Tencent's "HunyuanWorld-1.0 Community License" — a custom license with territory restrictions (use disallowed in the EU, UK, and South Korea per the upstream license text).
+
+**Implications for Task 14 (`scene_gen` HunyuanWorld production function):**
+
+1. **Personal/portfolio use:** acceptable while the project is non-commercial and not served to users in restricted territories.
+2. **Public-launch (week 6):** must add a geo-block (Cloudflare Pages location header → return a stock-room-only mode for EU/UK/KR visitors) **or** drop HunyuanWorld and ship Approach C (stock rooms) only.
+3. **Spike B output (week 1):** if it works, capture in `SPIKE_RESULT.md` that the license is the gating factor — *not* technical readiness — for launch deployment.
+4. **`backend/stock_rooms/manifest.json`** (Task 16) gains importance: it's the commercial-safe fallback even if HunyuanWorld is technically excellent.
+
+The plan does not need a new task for this. The geo-block (or HunyuanWorld removal) lands at Task 36 (production deploy) along with rate limiting. Pre-deployment, decide which path.
+
+**Affected plan tasks:** Task 14 (note license in module docstring), Task 36 (geo-block or remove HunyuanWorld).
+
+---
+
 ## Execution order
 
 1. Subagents read this file first.
-2. Each subagent for tasks 3, 13, 14, 15, 16, 17, 21, 22, 23, 25, 27, 30, 31 must check the corresponding Amendment and incorporate the change.
+2. Each subagent for tasks 3, 13, 14, 15, 16, 17, 21, 22, 23, 25, 27, 30, 31, 36 must check the corresponding Amendment and incorporate the change.
 3. New tasks 9.5, 14.5, 15.5 are inserted with the content above.
 4. The pinned week-1 done sentence governs all spike work.
