@@ -1,4 +1,6 @@
 """M0 stub — every ML stage returns 501."""
+from typing import NoReturn
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
@@ -10,8 +12,8 @@ class CreateExhibitRequest(BaseModel):
     prompt: str = Field(min_length=1, max_length=500)
 
 
-@router.post("/exhibits", status_code=501)
-def create_exhibit(req: CreateExhibitRequest) -> None:
+@router.post("/exhibits")
+def create_exhibit(req: CreateExhibitRequest) -> NoReturn:
     raise HTTPException(
         status_code=501,
         detail={"stage": "orchestrator", "detail": "Not yet implemented (M0)"},
@@ -19,7 +21,7 @@ def create_exhibit(req: CreateExhibitRequest) -> None:
 
 
 @router.get("/exhibits/{exhibit_id}")
-def get_exhibit(exhibit_id: str) -> None:
+def get_exhibit(exhibit_id: str) -> NoReturn:
     raise HTTPException(status_code=404, detail={"exhibit_id": exhibit_id, "detail": "not found"})
 
 
