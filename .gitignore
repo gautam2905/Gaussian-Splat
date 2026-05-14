@@ -1,0 +1,45 @@
+# Build artefacts
+node_modules/
+dist/
+build/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local secrets / env
+.env
+.env.*
+!.env.example
+!frontend/.env.production
+
+# ML artefacts (regenerable)
+*.glb
+*.ply
+*.ksplat
+*.mp4
+*.png
+*.jpg
+!docs/**/*.png
+!frontend/public/**/*.png
+!backend/stock_rooms/rooms/*.glb
+
+# Editor
+.DS_Store
+.vscode/
+.idea/
+
+# Project-specific
+references/
+_archive/
+data/
+spikes/spike_a/*.png
+spikes/spike_a/*.glb
+spikes/spike_b/*.glb
+spikes/spike_b/*.mp4
+spikes/spike_c/public/*.glb
+
+# Modal local state
+.modal.toml
