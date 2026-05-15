@@ -302,6 +302,48 @@ The plan does not need a new task for this. The geo-block (or HunyuanWorld remov
 
 ---
 
+## Amendment K — Orchestrator runs on OpenAI, not Anthropic
+
+**Reason:** Project owner has OpenAI credits, not Anthropic, with a hard $1 cap on API spend.
+
+**Changes to Task 13 (orchestrator):**
+
+1. **Config.** `backend/app/config.py`:
+   - Add `openai_api_key: str = ""` (primary)
+   - Keep `anthropic_api_key: str = ""` (unused but reserved for future swap-back)
+   - Rename `claude_model` → `orchestrator_model` with default `"gpt-4o-mini"`. Document acceptable values in module docstring (gpt-4o-mini, gpt-4o, claude-haiku-4-5 for future).
+
+2. **Dependencies.** `backend/pyproject.toml`: add `openai>=1.40`. Keep `anthropic` (negligible install cost; preserves option to swap back).
+
+3. **Implementation.** Replace `backend/app/orchestrator/claude.py` with `backend/app/orchestrator/openai_client.py`. The function name stays `orchestrate(...)`. Use the OpenAI SDK's `client.chat.completions.create(model=..., messages=[{"role":"system", ...}, {"role":"user", ...}], response_format={"type": "json_object"})`. The system prompt content from `prompts.py` is unchanged.
+
+4. **Cost target.** `gpt-4o-mini` at ~3 K input + 2 K output tokens per orchestrate call = ~$0.001/exhibit. The $1 cap = ~1 000 exhibits before billing concern. Comfortable.
+
+5. **JSON-mode reliability.** OpenAI's `response_format: {"type": "json_object"}` is strict; the retry-with-feedback loop already in Amendment F still applies. The refusal-classification (`{"refused": true, "category": ...}`) shape is identical.
+
+6. **Exception classes.** `OrchestratorRefused` and `OrchestratorFailed` are imported by `routing.py` — keep names and signatures unchanged so downstream code doesn't move.
+
+**Affected plan tasks:** Task 2 (config: add `openai_api_key`), Task 13 (full implementation swap), Task 17 (no change — uses the same `orchestrate(...)` function).
+
+**Not affected:** spike work (Tasks 8–12) — orchestrator isn't called during the spike. OpenAI/Anthropic swap is a Phase 2 concern.
+
+---
+
+## Spike budget posture (locked)
+
+Per-owner constraint: minimize Modal H100 spend during week 1. Locked posture:
+
+- **Task 8 (Modal sanity):** ~$0.01 (5 seconds H100).
+- **Spike A:** 3 prompts (pomegranate, pocket watch, anatomical heart) on **A10G** (not H100). FLUX.1-schnell + TRELLIS.2 at 512³. ~$0.10–0.30 total.
+- **Task 9.5 (latency benchmark):** measure during Spike A; no separate run.
+- **Spike B:** 1 HunyuanWorld scene (the Victorian-study reference) on H100 (HunyuanWorld doesn't fit on A10G). ~$0.20.
+- **Spike C:** local three.js + best Spike-A GLB. **$0** Modal spend.
+- **Spike total:** ~$0.40–0.55.
+
+If even one of A/B/C fails its hard pass, the adapt-path remains as in §10 of the design spec.
+
+---
+
 ## Execution order
 
 1. Subagents read this file first.
