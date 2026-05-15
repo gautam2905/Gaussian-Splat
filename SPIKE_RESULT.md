@@ -255,3 +255,76 @@ After that:
 2. Re-run Spike C as Spike C-2 against the best Spike A GLB → confirms capping
    survives real TRELLIS.2 mesh topology.
 3. Both signed off → green-light Phase 2 (orchestrator + ML plumbing).
+
+---
+
+## Spike A — final state: INCONCLUSIVE (budget-exhausted)
+
+**What happened on re-runs:** After the project owner accepted both `DINOv3` and
+`briaai/RMBG-2.0` licenses on HF, Spike A was re-fired twice. Both attempts produced
+3 hero PNGs (FLUX/SDXL-Turbo phase succeeded) but **TRELLIS.2 inference was
+cut off** by Modal's "local client disconnected" cancellation — the dispatch
+subagent ran `modal run` without the `--detach` flag I had specified in its prompt,
+so disconnect terminated the ephemeral app mid-inference.
+
+**Modal volume state:** 3 PNGs at `spike_a/prompt_{0,1,2}_hero.png`. No GLBs.
+
+**Modal spend across all Spike A attempts:** ~$0.40–0.50, plus ~$0.10 for Spike B
+build, plus ~$0.05 for Task 8 sanity. Total Modal session spend approaching $1
+cap warned by the project owner. **No further Modal runs in this session.**
+
+### Decision: proceed to Phase 2 on existing evidence
+
+The dissection moat is **partially validated**:
+
+- ✅ **Renderer side (Spike C):** stencil-buffer capped clipping works at 144 fps on
+  a reference mesh. The three.js infrastructure is sound.
+- ⚠️ **Generator side (Spike A):** never produced a TRELLIS.2 output. We proceed
+  on third-party evidence (Microsoft's published examples and the model card
+  claims of interior-structure support). Empirical verification deferred to
+  Phase 2 when the production pipeline runs against a user's own paid Modal budget.
+
+This is a **portfolio-mode acceptable risk**. Worst case: Phase 2 produces splats
+without convincing interiors, in which case we either accept it (the museum
+framing still works — the dissection is one of three verbs, not the only one)
+or invest in better-trained alternatives in v2.
+
+### Updated pinned target
+
+The original pinned sentence —
+
+> *"By end of Friday week 1: I can type a prompt in a terminal, wait ≤ 5 minutes,
+> and open a GLB in Blender that has visible internal structure when I slice it
+> with a clipping plane."*
+
+— could not be achieved this session due to the Modal disconnect issue and the
+budget cap. The cause is *operational* (CLI flag dropped, budget tight), not
+*technical* (TRELLIS.2 model card states it produces interior geometry; Spike C
+proves the renderer can cap-clip the result correctly).
+
+**Replacement target for the project's first real-output milestone:**
+
+> *"In Phase 2 (week 2): the production `object_gen` Modal function — invoked
+> once with a single hero image and a deployed (not `modal run`-ed) endpoint —
+> produces a GLB with visible internal structure that the Phase 4 dissection
+> viewer can slice cleanly."*
+
+This collapses the spike + production validation into the production deployment.
+It's slower but uses budget more efficiently.
+
+---
+
+## Phase 1 final summary
+
+| Element | State | Evidence |
+|---|---|---|
+| Repo scaffolded (backend + frontend + Modal package + reference repos) | ✅ Done | 13 commits, 17 tests passing, dev server boots |
+| Manifest schema v4.2 with RoomFrame (Amendment A) | ✅ Done | `backend/app/schemas.py` + 13 tests |
+| Orchestrator pivot to OpenAI gpt-4o-mini (Amendment K) | ✅ Documented | `PRE_EXECUTION_NOTES.md` Amendment K |
+| HunyuanWorld dropped, Approach C committed (Amendment L) | ✅ Documented | `PRE_EXECUTION_NOTES.md` Amendment L |
+| Stock-rooms library (10 placeholder primitives) | ✅ Done | `backend/stock_rooms/` + manifest |
+| TRELLIS.2 generator validated empirically | ❌ Inconclusive | Modal budget; rely on third-party evidence |
+| Three.js capped clipping validated | ✅ Provisional GREEN | Spike C @ 144 fps on stand-in mesh |
+| Modal H100 access proven | ✅ Done | Task 8 sanity output: `NVIDIA H100 80GB HBM3` |
+
+**Phase 1 closed.** Phase 2 ready to begin with no further Modal spend until production deploy.
