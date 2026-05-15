@@ -8,6 +8,10 @@ import { RailController } from "./locomotion/RailController";
 import { loadScene } from "./Scene";
 import { mountPedestals } from "./Pedestals";
 import { useLocomotionStore } from "./store/locomotionStore";
+import { ClippingPlane } from "./dissection/ClippingPlane";
+import { CappedClipping } from "./dissection/CappedClipMaterial";
+import { ExplodedView } from "./dissection/ExplodedView";
+import { useDissectionStore } from "./dissection/DissectionStore";
 
 interface Props {
   manifest: Manifest;
@@ -56,6 +60,48 @@ export default function ExhibitViewer({ manifest, apiBase }: Props) {
     const mouseLook = new MouseLook(canvas);
     const fsm = new CameraStateMachine(camera, rail, mouseLook);
 
+    // ===== Dissection helpers =====
+    const clippingPlane = new ClippingPlane("y");
+    const cappedClipping = new CappedClipping(scene);
+    const explodedView = new ExplodedView();
+    let attachedToObjectId: string | null = null;
+
+    const updateDissection = () => {
+      const loco = useLocomotionStore.getState();
+      const dissection = useDissectionStore.getState();
+
+      if (loco.mode === "focused" && loco.focusedObjectId) {
+        const mesh = pedestalsHandle.objectMeshes.get(loco.focusedObjectId);
+        if (!mesh) return;
+
+        if (attachedToObjectId !== loco.focusedObjectId) {
+          // Transitioned into focus on a (possibly new) object — attach.
+          cappedClipping.attach(mesh, clippingPlane.plane);
+          const hasParts = explodedView.attach(mesh);
+          useDissectionStore.getState().setExplodeAvailable(hasParts);
+          attachedToObjectId = loco.focusedObjectId;
+        }
+
+        // Update clip plane from store state every frame.
+        clippingPlane.setAxis(dissection.clipAxis);
+        const halfExtent = ClippingPlane.bboxHalfExtent(mesh, dissection.clipAxis);
+        clippingPlane.setOffset(dissection.clipT, halfExtent);
+        cappedClipping.update(clippingPlane.plane);
+
+        // Update exploded view.
+        explodedView.setT(dissection.explodeT);
+      } else if (attachedToObjectId !== null) {
+        // Exited focus — detach and restore materials.
+        cappedClipping.detach();
+        explodedView.detach();
+        attachedToObjectId = null;
+      }
+    };
+
+    // ===== Exit-focus event (from DissectionPanel back button) =====
+    const onExitFocus = () => fsm.exitFocus();
+    window.addEventListener("viewer:exit-focus", onExitFocus);
+
     // ===== Input handlers =====
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === " " || e.key === "ArrowDown") {
@@ -102,6 +148,7 @@ export default function ExhibitViewer({ manifest, apiBase }: Props) {
     const loop = () => {
       raf = requestAnimationFrame(loop);
       fsm.update(performance.now());
+      updateDissection();
       renderer.render(scene, camera);
     };
     loop();
@@ -120,6 +167,9 @@ export default function ExhibitViewer({ manifest, apiBase }: Props) {
       window.removeEventListener("keydown", onKey);
       canvas.removeEventListener("click", onClick);
       window.removeEventListener("resize", onResize);
+      window.removeEventListener("viewer:exit-focus", onExitFocus);
+      cappedClipping.dispose();
+      explodedView.detach();
       sceneHandle.dispose();
       pedestalsHandle.dispose();
       mouseLook.dispose();

@@ -5,6 +5,7 @@ import ExhibitViewer from "../viewer/ExhibitViewer";
 import HintChip from "../viewer/hud/HintChip";
 import ProgressBar from "../viewer/hud/ProgressBar";
 import StationIndicator from "../viewer/hud/StationIndicator";
+import DissectionPanel from "../viewer/dissection/DissectionPanel";
 import { useExhibitStore } from "../viewer/store/exhibitStore";
 
 const API_BASE = (import.meta.env.VITE_API_BASE as string | undefined) ?? "http://localhost:8000";
@@ -30,6 +31,9 @@ export default function Exhibit() {
       <StationIndicator />
       <ProgressBar />
       <HintChip />
+      <DissectionPanel
+        onClose={() => window.dispatchEvent(new CustomEvent("viewer:exit-focus"))}
+      />
     </>
   );
 }
