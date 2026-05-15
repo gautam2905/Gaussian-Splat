@@ -1,0 +1,431 @@
+[
+  {
+    "id": "victorian_study_001",
+    "themes": [
+      "historical",
+      "study",
+      "warm-light",
+      "interior",
+      "victorian"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Victorian Study')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/victorian_study_001.glb",
+    "size_bytes": 4024,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        6.0,
+        3.2,
+        6.0
+      ]
+    }
+  },
+  {
+    "id": "library_warm_001",
+    "themes": [
+      "library",
+      "warm-light",
+      "interior",
+      "books",
+      "reading"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Warm Library')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/library_warm_001.glb",
+    "size_bytes": 3940,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        8.0,
+        4.0,
+        10.0
+      ]
+    }
+  },
+  {
+    "id": "workshop_industrial_001",
+    "themes": [
+      "workshop",
+      "industrial",
+      "interior",
+      "mechanics",
+      "tools"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Industrial Workshop')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/workshop_industrial_001.glb",
+    "size_bytes": 3952,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        10.0,
+        4.5,
+        12.0
+      ]
+    }
+  },
+  {
+    "id": "gallery_white_001",
+    "themes": [
+      "gallery",
+      "modern",
+      "interior",
+      "neutral",
+      "art"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'White Cube Gallery')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/gallery_white_001.glb",
+    "size_bytes": 3952,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        12.0,
+        4.0,
+        15.0
+      ]
+    }
+  },
+  {
+    "id": "classroom_neutral_001",
+    "themes": [
+      "classroom",
+      "educational",
+      "interior",
+      "neutral"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Neutral Classroom')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/classroom_neutral_001.glb",
+    "size_bytes": 4032,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        9.0,
+        3.2,
+        10.0
+      ]
+    }
+  },
+  {
+    "id": "laboratory_clinical_001",
+    "themes": [
+      "laboratory",
+      "clinical",
+      "interior",
+      "science",
+      "modern"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Clinical Laboratory')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/laboratory_clinical_001.glb",
+    "size_bytes": 3964,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        8.0,
+        3.0,
+        10.0
+      ]
+    }
+  },
+  {
+    "id": "kitchen_period_001",
+    "themes": [
+      "kitchen",
+      "period",
+      "interior",
+      "cooking",
+      "domestic"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Period Kitchen')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/kitchen_period_001.glb",
+    "size_bytes": 4012,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        5.0,
+        2.8,
+        6.0
+      ]
+    }
+  },
+  {
+    "id": "conservatory_botanic_001",
+    "themes": [
+      "conservatory",
+      "botanic",
+      "interior",
+      "greenhouse",
+      "nature"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Botanic Conservatory')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/conservatory_botanic_001.glb",
+    "size_bytes": 3936,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        10.0,
+        5.0,
+        14.0
+      ]
+    }
+  },
+  {
+    "id": "attic_dim_001",
+    "themes": [
+      "attic",
+      "curiosities",
+      "interior",
+      "dim",
+      "historical"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Dusty Attic')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/attic_dim_001.glb",
+    "size_bytes": 4008,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        7.0,
+        2.4,
+        8.0
+      ]
+    }
+  },
+  {
+    "id": "pavilion_outdoor_001",
+    "themes": [
+      "pavilion",
+      "outdoor",
+      "garden",
+      "open",
+      "nature"
+    ],
+    "style": "placeholder",
+    "credit": "Synthesized primitive room \u2014 trimesh box geometry (placeholder for 'Outdoor Pavilion')",
+    "license": "CC0",
+    "source_url": "",
+    "glb_path": "rooms/pavilion_outdoor_001.glb",
+    "size_bytes": 3956,
+    "room_frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "basis_x": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "basis_y": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "basis_z": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "extent": [
+        8.0,
+        3.5,
+        8.0
+      ]
+    }
+  }
+]
