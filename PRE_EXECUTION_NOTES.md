@@ -344,6 +344,23 @@ If even one of A/B/C fails its hard pass, the adapt-path remains as in §10 of t
 
 ---
 
+## Amendment L — HunyuanWorld dropped from v1; Approach C is the only scene path
+
+**Reason:** Spike B (Task 10) hit three HuggingFace license gates (`black-forest-labs/FLUX.1-dev`, indirect DINOv3 via downstream stages, and the territory-restricted Tencent HunyuanWorld-1.0 license per Amendment J). Combined with a fragile dep chain (jupyter + open3d 420 MB + nvdiffrast + moge), HunyuanWorld is unworkable for a $1-budget portfolio v1.
+
+**Changes:**
+
+1. **Task 14 (`scene_gen`)**: drop `scene_gen_hunyuan(...)`. Only `scene_gen_stock(stock_room_id, exhibit_id)` ships in v1.
+2. **Task 16 (stock-rooms library)**: now load-bearing for v1. Required to ship 10 quality CC0 GLBs (Polyhaven et al.) before launch.
+3. **Manifest schema**: `Scene.generator` Literal stays `"hunyuanworld" | "stock"` (no breaking change), but the orchestrator (Task 13) must always emit `"stock"` and pick a `stock_room_id`. The HunyuanWorld branch in `routing.py` is a placeholder that raises `NotImplementedError` if ever invoked.
+4. **Amendment A (coordinate frame fit)**: simplifies — stock-room frames are precomputed at asset-prep time, not runtime. The `RoomFrame` for each stock room lives in `backend/stock_rooms/manifest.json` (or per-room `*.frame.json`). No `frame_fit.py` needed for v1.
+5. **Modal image for HunyuanWorld** (`im-ponBZayDNkEzeQn1ZZvfSL`) is cached — costs $0 to keep. Don't delete. Re-enabling at v2 just requires accepting the licenses.
+6. **Pinned week-1 done sentence is unchanged** — it's about TRELLIS.2 dissection, which Spike A still validates once DINOv3 license is accepted.
+
+**Affected plan tasks:** Task 14 (simplification), Task 16 (priority elevated to launch-critical), Task 17 (routing — no HunyuanWorld branch), Task 36 (no geo-block needed since no HunyuanWorld), Amendment A's `frame_fit.py` module (delete from plan).
+
+---
+
 ## Execution order
 
 1. Subagents read this file first.

@@ -169,3 +169,89 @@ evaluated for non-manifold meshes.
 
 **Screenshots:** `spikes/spike_c/screenshot.png` (Y-axis, side view, filled cap visible),
 `spikes/spike_c/screenshot_z_axis_stencil.png` (Z-axis, front view)
+
+---
+
+## Spike B: HunyuanWorld walkability — BLOCKED → PIVOT to Approach C
+
+Budget posture: 1 scene on H100. Modal image build successful (`im-ponBZayDNkEzeQn1ZZvfSL`,
+~46s save time, full dep chain including open3d 420 MB cached for future runs).
+Actual Modal spend: ~$0.10 (build CPU time + brief GPU access — function never executed
+because local client disconnected on `modal run` exit).
+
+### Why blocked
+
+HunyuanWorld's text-to-scene pipeline requires **multiple gated HuggingFace models** that
+the project owner has not accepted licenses for:
+
+1. **`black-forest-labs/FLUX.1-dev`** — base diffusion model (gated; license required).
+   Note: this is FLUX.1-**dev**, distinct from FLUX.1-schnell which Spike A also gates.
+2. **`tencent/HunyuanWorld-1`** — the LoRA + ZIM weights (likely accepted but
+   subject to the Tencent HunyuanWorld-1.0 Community License with territory
+   restrictions; see Amendment J).
+3. **DINOv3** (indirectly, via downstream HunyuanWorld stages) — same gate as Spike A.
+
+Plus install-time warning: `moge 2.0.0 requires gradio, pipeline@... — not installed`.
+Likely surfaces at scene-generation time as ImportError.
+
+### Decision (pivot)
+
+**Commit to Approach C (curated stock rooms) for v1.** Drop HunyuanWorld from week 1.
+
+Reasoning:
+- 3 separate HF license gates + 1 territory-restricted custom license is heavy ops burden.
+- Modal image dep chain (jupyter, open3d 420 MB, nvdiffrast, moge, …) is fragile.
+- 10 hand-picked Polyhaven CC0 rooms cover the museum-aesthetic spectrum we need.
+- The product moat is **dissection of generated objects**, not generated scenes.
+  The "places you visit" framing works equally well with curated environments.
+- HunyuanWorld can be revisited at v2. The Modal image is cached; re-enabling later
+  costs only license-acceptance time.
+
+### Updates to plan
+
+- **Task 14 (`scene_gen`)**: now only `scene_gen_stock(stock_room_id, exhibit_id)`.
+  HunyuanWorld branch deferred to a future Amendment.
+- **Task 16 (stock-rooms library)**: load-bearing for v1 — the only scene path.
+- **Amendment A (coordinate frame fit)**: for stock rooms the `RoomFrame` is
+  precomputed at asset-prep time, not runtime. Simplifies routing.
+
+### Pass criteria
+
+| Criterion | Result | Notes |
+|---|---|---|
+| Generated < 8 min (excl. build) | N/A | Function never executed |
+| No tearing/holes during motion | N/A | No scene produced |
+| Plausible floor for pedestals | N/A | No scene produced |
+
+**Result:** PIVOT to Approach C. HunyuanWorld postponed to v2.
+
+---
+
+## Final week-1 decision
+
+| Spike | Result | Implications |
+|---|---|---|
+| A (TRELLIS.2 interiors) | **BLOCKED on DINOv3** (1 HF license accept away) | Image cached; ~$0.15 to run when unblocked |
+| B (HunyuanWorld walkability) | **PIVOT → Approach C** (stock rooms) | Eliminates 3 license gates + heavy deps |
+| C (three.js capped clipping) | **PROVISIONAL GREEN** on stand-in mesh | Re-test on real TRELLIS.2 GLB as Spike C-2 after A unblocks |
+
+**Pinned week-1 done sentence remains:**
+
+> *"By end of Friday week 1: I can type a prompt in a terminal, wait ≤ 5 minutes, and open a GLB in Blender that has visible internal structure when I slice it with a clipping plane."*
+
+**Status of the pinned target:** waiting on the single DINOv3 license accept to land.
+Everything else needed for that sentence is built and cached.
+
+### What unblocks all remaining week-1 work
+
+One action by the project owner:
+
+> Visit **https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m**, log in to
+> the same HF account whose token is at `~/.cache/huggingface/token`, accept the Meta
+> DINOv3 research-use license. ~30 seconds.
+
+After that:
+1. Re-run Spike A (cached image, ~$0.15 H100 time) → 3 GLBs with interior structure.
+2. Re-run Spike C as Spike C-2 against the best Spike A GLB → confirms capping
+   survives real TRELLIS.2 mesh topology.
+3. Both signed off → green-light Phase 2 (orchestrator + ML plumbing).
