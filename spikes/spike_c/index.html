@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spike C — Capped Clipping</title>
+  <style>
+    body { margin: 0; background: #111; overflow: hidden; font-family: system-ui; }
+    #stats {
+      position: fixed; top: 8px; left: 8px;
+      color: #fff8; font-size: 11px; font-family: monospace;
+      background: rgba(0,0,0,.4); padding: 4px 8px; border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="c"></canvas>
+  <div id="stats">fps: <span id="fps">--</span></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

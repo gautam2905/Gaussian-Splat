@@ -118,8 +118,54 @@ The next run will skip the ~15 min build and go straight to H100 GPU inference
 
 ---
 
-## Best output for Spike C
+## Best output for Spike C (TRELLIS.2 mesh)
 
 Pending. Will update after DINOv3 access is granted and meshes are scored.
 Likely candidate: `spikes/spike_a/prompt_02_object.glb` (anatomical heart —
 highest interior complexity if TRELLIS.2 captures chambers correctly).
+
+---
+
+## Spike C: Three.js capped clipping (provisional, stand-in mesh)
+
+**Date:** 2026-05-15
+**Stand-in mesh:** DamagedHelmet (Khronos glTF-Sample-Assets, CC0 / public domain)
+**URL:** `https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/main/Models/DamagedHelmet/glTF-Binary/DamagedHelmet.glb`
+**Reason:** Spike A (TRELLIS.2) BLOCKED on DINOv3 gated license; using CC0 reference
+mesh to validate rendering infrastructure now.
+
+### Key implementation notes
+
+- Renderer must be created with `stencil: true` — without this flag, Chromium
+  allocates 0 stencil bits and the cap stencil test never fires (the cap plane
+  renders everywhere). This was discovered during the spike and fixed.
+- Cap uses `stencilFunc: EqualStencilFunc(ref=1)` + `renderOrder=1`; mesh materials
+  use `stencilFunc: Always + stencilZPass: Replace(ref=1) + DoubleSide`.
+- "Replace" variant (vs. XOR/increment-decrement) is correct for convex/manifold
+  meshes like DamagedHelmet. The XOR variant is more robust for concave or
+  non-manifold meshes — flagged as TODO for Spike C-2.
+- Vite 8 requires Node ≥ 20.19; pinned to Vite 5.4 to match host Node 20.18.1.
+- HDRI (royal_esplanade_1k.hdr) fails to load in isolated env (CORS / network);
+  ambient + directional fallback lights are active. PBR textures appear unlit but
+  geometry dissection is fully validated.
+
+### Pass criteria results
+
+| Criterion | Result | Notes |
+|---|---|---|
+| Clipping smooth | PASS | Y and Z axes both tested; mesh cross-sections at arbitrary t ∈ [0,1] |
+| Capping fills cut face | PASS | Stencil buffer (8-bit) required explicit `stencil: true` on WebGLRenderer |
+| 60 fps on laptop GPU | PASS | Observed 143–145 fps sustained (AMD Radeon Graphics, WebGL2, ANGLE) |
+| Axis switching works | PASS | Y→Z switch tested; cap re-orients correctly via quaternion from normal |
+
+**Average FPS observed:** ~144 fps (headless Chromium + AMD Radeon, WebGL2 ANGLE)
+
+**Provisional result:** GREEN
+
+Full test pending Spike A unblock: capping on real TRELLIS.2 mesh topology (with
+potential holes, non-manifold edges, multi-shell interiors) — to be re-run as
+**Spike C-2** after DINOv3 license acceptance. The XOR stencil variant should be
+evaluated for non-manifold meshes.
+
+**Screenshots:** `spikes/spike_c/screenshot.png` (Y-axis, side view, filled cap visible),
+`spikes/spike_c/screenshot_z_axis_stencil.png` (Z-axis, front view)
