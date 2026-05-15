@@ -1,0 +1,108 @@
+{
+  "schema_version": "v1",
+  "description": "CC0 GLBs from Khronos glTF-Sample-Assets, vendored for stub object_gen mode.",
+  "license": "CC0-1.0 / public domain",
+  "credit": "Khronos GLTF Sample Assets — https://github.com/KhronosGroup/glTF-Sample-Assets",
+  "objects": [
+    {
+      "id": "helmet",
+      "glb_path": "glbs/helmet.glb",
+      "labels": ["helmet", "armor", "knight", "headgear", "hat", "skull", "visor", "soldier"],
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.55,
+      "rotation_y_deg": 30,
+      "scale_hint": 0.4
+    },
+    {
+      "id": "avocado",
+      "glb_path": "glbs/avocado.glb",
+      "labels": ["avocado", "fruit", "food", "pit", "seed", "halved", "cross-section", "plant"],
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.15
+    },
+    {
+      "id": "boombox",
+      "glb_path": "glbs/boombox.glb",
+      "labels": ["radio", "boombox", "speaker", "electronics", "machine", "stereo", "audio", "device"],
+      "dissectable": true,
+      "preferred_clip_axis": "x",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 15,
+      "scale_hint": 0.2
+    },
+    {
+      "id": "lantern",
+      "glb_path": "glbs/lantern.glb",
+      "labels": ["lantern", "lamp", "light", "candle", "torch", "illumination", "fixture", "watch"],
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.25
+    },
+    {
+      "id": "bottle",
+      "glb_path": "glbs/bottle.glb",
+      "labels": ["bottle", "container", "jar", "vessel", "flask", "water", "canteen", "vase"],
+      "dissectable": false,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.2
+    },
+    {
+      "id": "camera",
+      "glb_path": "glbs/camera.glb",
+      "labels": ["camera", "watch", "clock", "device", "mechanical", "antique", "instrument", "optic", "lens", "photograph"],
+      "dissectable": true,
+      "preferred_clip_axis": "z",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 45,
+      "scale_hint": 0.3
+    },
+    {
+      "id": "duck",
+      "glb_path": "glbs/duck.glb",
+      "labels": ["duck", "animal", "bird", "toy", "rubber", "waterfowl", "poultry", "yellow"],
+      "dissectable": false,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.2
+    },
+    {
+      "id": "buggy",
+      "glb_path": "glbs/buggy.glb",
+      "labels": ["car", "vehicle", "buggy", "machine", "engine", "automobile", "transport", "wheel"],
+      "dissectable": true,
+      "preferred_clip_axis": "x",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 30,
+      "scale_hint": 0.35
+    },
+    {
+      "id": "fox",
+      "glb_path": "glbs/fox.glb",
+      "labels": ["fox", "animal", "mammal", "canine", "creature", "wildlife", "fur", "predator"],
+      "dissectable": false,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.25
+    },
+    {
+      "id": "fish",
+      "glb_path": "glbs/fish.glb",
+      "labels": ["fish", "animal", "sea", "ocean", "aquatic", "creature", "marine", "barramundi"],
+      "dissectable": false,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5,
+      "rotation_y_deg": 0,
+      "scale_hint": 0.3
+    }
+  ]
+}

@@ -29,6 +29,8 @@ uv.lock
 !docs/**/*.png
 !frontend/public/**/*.png
 !backend/stock_rooms/rooms/*.glb
+!backend/stub_objects/glbs/*.glb
+!backend/stub_objects/library.json
 
 # Editor
 .DS_Store
