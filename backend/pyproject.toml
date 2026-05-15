@@ -9,6 +9,7 @@ dependencies = [
   "pydantic-settings>=2.5",
   "httpx>=0.27",
   "sse-starlette>=2.1",
+  "openai>=1.40",
   "anthropic>=0.40",
   "modal>=0.66",
   "python-multipart>=0.0.9",

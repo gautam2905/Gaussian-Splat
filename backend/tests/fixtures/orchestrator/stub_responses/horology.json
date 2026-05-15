@@ -1,0 +1,128 @@
+{
+  "schema_version": "v4.2",
+  "exhibit_id": "FEW_SHOT_HOROLOGY",
+  "created_at": "2026-05-15T00:00:00Z",
+  "user_prompt": "A horology exhibit featuring pocket watches from three different centuries",
+  "title": "Art of Timekeeping",
+  "description": "Three pocket watches — one from each of the 18th, 19th, and 20th centuries — tell the story of humanity's obsession with measuring time through increasingly refined mechanical ingenuity.",
+  "scene": {
+    "generator": "stock",
+    "scene_prompt": "A warm Victorian study lined with dark wood paneling and brass fixtures, ideal for displaying precision mechanical instruments under soft incandescent light.",
+    "stock_room_id": "victorian_study_001",
+    "scene_url": "/exhibits/FEW_SHOT_HOROLOGY/scene/scene.glb",
+    "ambient_light": {
+      "color": "#f4e2c4",
+      "intensity": 0.55
+    },
+    "fog": null,
+    "room_frame": null
+  },
+  "spline": {
+    "control_points": [
+      [0.5, 0.55, 0.85],
+      [0.5, 0.55, 0.68],
+      [0.20, 0.55, 0.50],
+      [0.20, 0.55, 0.28],
+      [0.50, 0.55, 0.22],
+      [0.80, 0.55, 0.28],
+      [0.80, 0.55, 0.50],
+      [0.5, 0.55, 0.68]
+    ],
+    "stations": [
+      {
+        "t": 0.0,
+        "label": "Welcome",
+        "pedestal_id": null,
+        "preferred_yaw_deg": 0.0
+      },
+      {
+        "t": 0.25,
+        "label": "18th Century Watch",
+        "pedestal_id": "pedestal_watch_18c",
+        "preferred_yaw_deg": 0.0
+      },
+      {
+        "t": 0.55,
+        "label": "19th Century Watch",
+        "pedestal_id": "pedestal_watch_19c",
+        "preferred_yaw_deg": 0.0
+      },
+      {
+        "t": 0.80,
+        "label": "20th Century Watch",
+        "pedestal_id": "pedestal_watch_20c",
+        "preferred_yaw_deg": 0.0
+      }
+    ],
+    "travel_time_s": 32.0
+  },
+  "pedestals": [
+    {
+      "id": "pedestal_watch_18c",
+      "position": [0.20, 0.0, 0.28],
+      "height": 0.11,
+      "object_id": "watch_18c"
+    },
+    {
+      "id": "pedestal_watch_19c",
+      "position": [0.50, 0.0, 0.22],
+      "height": 0.11,
+      "object_id": "watch_19c"
+    },
+    {
+      "id": "pedestal_watch_20c",
+      "position": [0.80, 0.0, 0.28],
+      "height": 0.11,
+      "object_id": "watch_20c"
+    }
+  ],
+  "objects": [
+    {
+      "id": "watch_18c",
+      "label": "18th-Century Pocket Watch",
+      "placard_description": "This verge-fusee pocket watch from the 1780s represents the pinnacle of hand-crafted horology, with a brass movement regulated by a wheel-and-spring escapement that required daily winding.",
+      "image_prompt": "antique 18th century pocket watch, hero shot, plain white background, centered, photographic quality, single subject, no text, back cover removed to reveal brass gear movement",
+      "image_url": null,
+      "glb_url": null,
+      "rotation_y_deg": 0.0,
+      "scale": 0.1,
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5
+    },
+    {
+      "id": "watch_19c",
+      "label": "19th-Century Pocket Watch",
+      "placard_description": "A Swiss lever-escapement watch circa 1875, mass-produced using interchangeable machine-cut parts — a revolution that made precision timekeeping accessible to the middle class for the first time.",
+      "image_prompt": "Victorian 19th century pocket watch, hero shot, plain white background, centered, photographic quality, single subject, no text, back cover removed to reveal intricate lever escapement mechanism",
+      "image_url": null,
+      "glb_url": null,
+      "rotation_y_deg": 0.0,
+      "scale": 0.1,
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5
+    },
+    {
+      "id": "watch_20c",
+      "label": "20th-Century Pocket Watch",
+      "placard_description": "A 1930s railroad-grade pocket watch built to strict accuracy standards mandated by American railway safety regulations, featuring a lever escapement accurate to within 30 seconds per week.",
+      "image_prompt": "1930s railroad pocket watch, hero shot, plain white background, centered, photographic quality, single subject, no text, back cover removed to reveal precision lever escapement and balance wheel",
+      "image_url": null,
+      "glb_url": null,
+      "rotation_y_deg": 0.0,
+      "scale": 0.1,
+      "dissectable": true,
+      "preferred_clip_axis": "y",
+      "preferred_clip_t": 0.5
+    }
+  ],
+  "stage": "orchestrating",
+  "timing": {
+    "orchestrator_ms": 0,
+    "scene_gen_ms": 0,
+    "objects_gen_ms": {},
+    "total_ms": 0
+  },
+  "errors": []
+}
